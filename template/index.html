@@ -2,21 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Blackjack en Go</title>
+    <title>Blackjack</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>♠️ Blackjack en Go</h1>
-    <p><strong>Jugador:</strong> {{.Player}} (Total: {{len .Player}} cartas)</p>
-    <p><strong>Dealer:</strong> {{.Dealer}}</p>
-    <h2>{{.Message}}</h2>
-
-    {{if not .GameOver}}
-        <a href="/?action=hit">Pedir carta</a> |
+    <h1>Blackjack</h1>
+    <div>
+        <strong>Jugador:</strong> {{.PlayerCards}} ({{.PlayerScore}})
+    </div>
+    <div>
+        <strong>Banca:</strong> {{.DealerCards}} ({{.DealerScore}})
+    </div>
+    <p>{{.Message}}</p>
+    <div>
+        <a href="/?action=start">Iniciar</a>
+        <a href="/?action=hit">Pedir carta</a>
         <a href="/?action=stand">Plantarse</a>
-    {{else}}
-        <a href="/?action=new">Jugar otra vez</a>
-    {{end}}
+    </div>
 </body>
 </html>
+
 

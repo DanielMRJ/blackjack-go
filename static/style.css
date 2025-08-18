@@ -1,24 +1,20 @@
 body {
     font-family: Arial, sans-serif;
-    background: #0a0a23;
-    color: white;
     text-align: center;
-    margin: 50px;
-}
-
-h1 {
-    color: gold;
+    background: #222;
+    color: #fff;
 }
 
 a {
-    padding: 10px 20px;
-    background: green;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
+    display: inline-block;
     margin: 10px;
+    padding: 10px 20px;
+    background: #6200ea;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
 a:hover {
-    background: darkgreen;
+    background: #3700b3;
 }
