@@ -1,20 +1,32 @@
+:root {
+  --bg: #0e0f12;
+  --panel: #171a21;
+  --text: #e8e8e8;
+  --accent: #00d084;
+  --accent2: #ff4d4f;
+}
+* { box-sizing: border-box; }
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #222;
-    color: #fff;
+  margin: 0; padding: 32px;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  display: grid; place-items: start center; gap: 24px;
 }
-
-a {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px 20px;
-    background: #6200ea;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
+h1 { margin: 0 0 8px 0; }
+.actions { display: flex; gap: 12px; }
+button {
+  background: var(--panel); color: var(--text);
+  border: 1px solid #2a2f3a; padding: 10px 16px;
+  border-radius: 10px; cursor: pointer;
 }
-
-a:hover {
-    background: #3700b3;
+button:hover { border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.game { width: min(920px, 95vw); background: var(--panel); border-radius: 14px; padding: 20px; }
+.row { margin: 14px 0; }
+.cards { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.card {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 56px; height: 78px; border-radius: 10px;
+  background: #fff; color: #111; font-weight: 700; border: 2px solid #00000010;
 }
+.msg { margin-top: 8px; font-size: 18px; color: var(--accent); }

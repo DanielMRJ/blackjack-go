@@ -1,39 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Blackjack GO</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #111; color: #eee; text-align: center; }
-    .card { display: inline-block; padding: 10px; margin: 5px; border: 1px solid #eee; border-radius: 8px; }
-    button { margin: 10px; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
-  </style>
+  <meta charset="UTF-8" />
+  <title>Blackjack en Go</title>
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <h1>♠ Blackjack en Go ♥</h1>
-  <button onclick="iniciar()">Iniciar</button>
-  <button onclick="hit()">Pedir carta</button>
-  <button onclick="stand()">Plantarse</button>
-  <div id="game"></div>
+  <h1>🃏 Blackjack en Go</h1>
+
+  <div class="actions">
+    <button id="btnStart">Iniciar</button>
+    <button id="btnHit" disabled>Pedir carta</button>
+    <button id="btnStand" disabled>Plantarse</button>
+  </div>
+
+  <div id="game" class="game"></div>
 
   <script>
-    function render(data) {
-      document.getElementById("game").innerHTML = `
-        <h2>${data.message}</h2>
-        <p><strong>Tus cartas:</strong> ${data.playerCards.join(" , ")} (${data.playerScore})</p>
-        <p><strong>Cartas dealer:</strong> ${data.dealerCards.join(" , ")} ${data.dealerScore ? "(" + data.dealerScore + ")" : ""}</p>
+    const gameDiv = document.getElementById("game");
+    const btnStart = document.getElementById("btnStart");
+    const btnHit = document.getElementById("btnHit");
+    const btnStand = document.getElementById("btnStand");
+
+    function render(st) {
+      gameDiv.innerHTML = `
+        <div class="row">
+          <h2>Jugador (${st.playerScore})</h2>
+          <div class="cards">${st.playerCards.map(c => `<span class="card">${c}</span>`).join("")}</div>
+        </div>
+        <div class="row">
+          <h2>Dealer ${st.dealerScore ? `(${st.dealerScore})` : ""}</h2>
+          <div class="cards">${st.dealerCards.map(c => `<span class="card">${c}</span>`).join("")}</div>
+        </div>
+        <p class="msg">${st.message || ""}</p>
       `;
+      const finished = st.gameOver || st.dealerCards.includes("??") === false && st.message !== "";
+      btnHit.disabled = finished;
+      btnStand.disabled = finished;
     }
 
-    function iniciar() {
-      fetch("/start").then(r => r.json()).then(render);
-    }
-    function hit() {
-      fetch("/hit").then(r => r.json()).then(render);
-    }
-    function stand() {
-      fetch("/stand").then(r => r.json()).then(render);
-    }
+    btnStart.onclick = async () => {
+      const r = await fetch("/start");
+      const data = await r.json();
+      btnHit.disabled = false;
+      btnStand.disabled = false;
+      render(data);
+    };
+
+    btnHit.onclick = async () => {
+      const r = await fetch("/hit");
+      const data = await r.json();
+      render(data);
+    };
+
+    btnStand.onclick = async () => {
+      const r = await fetch("/stand");
+      const data = await r.json();
+      render(data);
+    };
   </script>
 </body>
 </html>
