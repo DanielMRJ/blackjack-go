@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Blackjack</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <title>Blackjack GO</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #eee; text-align: center; }
+    .card { display: inline-block; padding: 10px; margin: 5px; border: 1px solid #eee; border-radius: 8px; }
+    button { margin: 10px; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
 </head>
 <body>
-    <h1>Blackjack</h1>
-    <div>
-        <strong>Jugador:</strong> {{.PlayerCards}} ({{.PlayerScore}})
-    </div>
-    <div>
-        <strong>Banca:</strong> {{.DealerCards}} ({{.DealerScore}})
-    </div>
-    <p>{{.Message}}</p>
-    <div>
-        <a href="/?action=start">Iniciar</a>
-        <a href="/?action=hit">Pedir carta</a>
-        <a href="/?action=stand">Plantarse</a>
-    </div>
+  <h1>♠ Blackjack en Go ♥</h1>
+  <button onclick="iniciar()">Iniciar</button>
+  <button onclick="hit()">Pedir carta</button>
+  <button onclick="stand()">Plantarse</button>
+  <div id="game"></div>
+
+  <script>
+    function render(data) {
+      document.getElementById("game").innerHTML = `
+        <h2>${data.message}</h2>
+        <p><strong>Tus cartas:</strong> ${data.playerCards.join(" , ")} (${data.playerScore})</p>
+        <p><strong>Cartas dealer:</strong> ${data.dealerCards.join(" , ")} ${data.dealerScore ? "(" + data.dealerScore + ")" : ""}</p>
+      `;
+    }
+
+    function iniciar() {
+      fetch("/start").then(r => r.json()).then(render);
+    }
+    function hit() {
+      fetch("/hit").then(r => r.json()).then(render);
+    }
+    function stand() {
+      fetch("/stand").then(r => r.json()).then(render);
+    }
+  </script>
 </body>
 </html>
-
-
